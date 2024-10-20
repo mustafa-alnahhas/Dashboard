@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PageRequestDto, User } from '../Models/Dashboard';
+import { PageRequestDto, User, UserDetails } from '../Models/Dashboard';
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +18,8 @@ export class DashboardService {
     return this.http.get<PageRequestDto>(url);
   }
 
-  getUserDetailsById(id: number): Observable<User>{
+  getUserDetailsById(id: number): Observable<UserDetails>{
     const url = `${this.apiUrl}/${id}`;
-    return this.http.get<User>(url);
+    return this.http.get<UserDetails>(url);
   }
 }

@@ -15,9 +15,10 @@ export interface PageRequestDto{
     support: string;
 }
 
-// export interface UserDetails{
-
-// }
+export interface UserDetails{
+    data: User;
+    support: string;
+}
 
 
 

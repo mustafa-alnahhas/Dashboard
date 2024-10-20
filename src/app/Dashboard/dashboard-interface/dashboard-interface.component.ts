@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { DashboardService } from '../../Services/dashboard.service';
 import { PageRequestDto, User } from '../../Models/Dashboard';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard-interface',
@@ -23,15 +24,22 @@ export class DashboardInterfaceComponent {
 
   getSubscription$!: Subscription;
 
-  page: number = 1; // default page is 1
+  page!: number; // default page is 1
   pageSize!: number; // how many users in the page
   totalUsers!: number; // total number of users
 
-  constructor(private service: DashboardService) { 
+  constructor(private service: DashboardService, 
+              private router: Router, 
+              private route: ActivatedRoute) { 
     
   }
 
   ngOnInit(): void {
+    // debugger;
+    this.page = Number(this.route.snapshot.queryParamMap.get('page'));
+    if(this.page == 0){
+      this.page = 1;
+    }
     this.getUsersByPage(this.page); 
     
   }
@@ -51,10 +59,13 @@ export class DashboardInterfaceComponent {
 
   navigateToDetails(id: number){
     console.log(id);
+    var page = this.page;
+      this.router.navigate(['/details', id], { queryParams: { page } });
     
   }
 
-  
-
+  ngOnDestroy(): void {
+    this.getSubscription$.unsubscribe();
+  }
 
 }
