@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { DashboardService } from '../../Services/dashboard.service';
 import { PageRequestDto, User } from '../../Models/Dashboard';
 import { ActivatedRoute, Router } from '@angular/router';
+import { LoaderService } from '../../Services/loader.service';
 
 @Component({
   selector: 'app-dashboard-interface',
@@ -11,16 +12,10 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './dashboard-interface.component.html',
   styleUrl: './dashboard-interface.component.scss'
 })
-export class DashboardInterfaceComponent {
+export class DashboardInterfaceComponent implements OnInit, OnDestroy {
 
   pageContent = {} as PageRequestDto;
   usersPerPage!: User[]
-  // page: number;
-  //   per_page: number;
-  //   total: number;
-  //   total_pages: number;
-  //   data: User[];
-  //   support: string;
 
   getSubscription$!: Subscription;
 
@@ -64,6 +59,7 @@ export class DashboardInterfaceComponent {
     
   }
 
+  // to prevent data leak
   ngOnDestroy(): void {
     this.getSubscription$.unsubscribe();
   }

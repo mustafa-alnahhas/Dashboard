@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { DashboardService } from '../../Services/dashboard.service';
 import { User, UserDetails } from '../../Models/Dashboard';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-details',
@@ -11,7 +12,7 @@ import { User, UserDetails } from '../../Models/Dashboard';
   templateUrl: './user-details.component.html',
   styleUrl: './user-details.component.scss'
 })
-export class UserDetailsComponent {
+export class UserDetailsComponent implements OnInit, OnDestroy{
 
   constructor(private service: DashboardService,
               private route: ActivatedRoute, 
@@ -25,14 +26,14 @@ export class UserDetailsComponent {
 
   user = {} as User;
 
+  getSubscription$!: Subscription;
+
   ngOnInit() {
     this.userId = Number(this.route.snapshot.paramMap.get('id'));
     this.page = Number(this.route.snapshot.queryParamMap.get('page'));
 
-    this.service.getUserDetailsById(this.userId).subscribe(u => {
+    this.getSubscription$ = this.service.getUserDetailsById(this.userId).subscribe(u => {
       this.user = u.data;
-      console.log(this.user, "detailssss");
-      
     });
     
   }
@@ -41,6 +42,12 @@ export class UserDetailsComponent {
     // this.location.back();
     var page = this.page;
     this.router.navigate(['/'], { queryParams: { page } });
+  }
+
+  // to prevent data leak
+  ngOnDestroy(): void {
+    this.getSubscription$.unsubscribe();
+    
   }
 
 }

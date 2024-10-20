@@ -4,6 +4,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { AppRoutingModule } from "./app.routes";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { HttpClientModule } from "@angular/common/http";
+import { LoaderModule } from "./Services/loader/loader.module";
 
 @NgModule({
     declarations: [
@@ -13,7 +14,8 @@ import { HttpClientModule } from "@angular/common/http";
       BrowserModule,
       AppRoutingModule,
     //   NgbModule,
-      HttpClientModule
+      HttpClientModule,
+      LoaderModule
     ],
     providers: [],
     bootstrap: [AppComponent]
