@@ -1,0 +1,15 @@
+.container {
+    min-height: 90vh;
+  }
+
+  .card {
+    border: 1px solid #ccc;
+    padding: 16px;
+    margin: 16px;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
