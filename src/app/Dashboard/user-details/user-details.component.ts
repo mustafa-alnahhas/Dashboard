@@ -24,16 +24,17 @@ export class UserDetailsComponent implements OnInit, OnDestroy{
   userId!: number;
   page!: number;
 
-  user = {} as User;
+  user : User | undefined = undefined;
 
   getSubscription$!: Subscription;
 
   ngOnInit() {
+    // get the id and the last page 
     this.userId = Number(this.route.snapshot.paramMap.get('id'));
     this.page = Number(this.route.snapshot.queryParamMap.get('page'));
 
     this.getSubscription$ = this.service.getUserDetailsById(this.userId).subscribe(u => {
-      this.user = u.data;
+      this.user = u?.data;
     });
     
   }

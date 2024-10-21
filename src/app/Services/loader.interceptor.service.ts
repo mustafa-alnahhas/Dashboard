@@ -12,6 +12,7 @@ import { LoaderService } from './loader.service';
 
 
 @Injectable()
+/* this interceptor will be used to check the status of http requests (to be used in spinner for every component)*/
 export class LoaderInterceptor implements HttpInterceptor {
   private requests: HttpRequest<any>[] = [];
 
