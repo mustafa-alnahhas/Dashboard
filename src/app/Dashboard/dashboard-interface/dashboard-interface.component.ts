@@ -15,18 +15,21 @@ import { LoaderService } from '../../Services/loader.service';
 export class DashboardInterfaceComponent implements OnInit, OnDestroy {
 
   pageContent = {} as PageRequestDto;
+  // list of users to show on page
   usersPerPage!: User[]
 
   getSubscription$!: Subscription;
 
   searchId!: number;
   searchedUser = {} as User;
+  // subject to trigger on search id input change
   private searchSubject = new Subject<number>();
 
   page!: number; // current page
   pageSize!: number; // how many users in the page
   totalUsers!: number; // total number of users
 
+  // will be used to show no data found in case the user is not exist
   noUserFound: boolean = false;
 
   constructor(private service: DashboardService, 
@@ -42,9 +45,10 @@ export class DashboardInterfaceComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // get the last page number from user details component
+    // get the last page number and the search id (in case it is exist) from user details component
     this.page = Number(this.route.snapshot.queryParamMap.get('page'));
      var searchId = Number(this.route.snapshot.queryParamMap.get('searchId'));
+     // in case the searchId is exist
      if(searchId != 0){
       this.searchId = searchId
      }
@@ -53,12 +57,13 @@ export class DashboardInterfaceComponent implements OnInit, OnDestroy {
     if(this.page == 0){
       this.page = 1;
     }
-    // in case the user is coming back to searhed user page
+
+    // in case the user is coming back to searched user page
     if(this.searchId){
       this.searchUserById();
     }
+    // else coming back from users result by page
     else{
-      // else coming back from users result by page
       this.getUsersByPage(this.page); 
     }
   }
