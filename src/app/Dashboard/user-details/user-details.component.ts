@@ -23,17 +23,23 @@ export class UserDetailsComponent implements OnInit, OnDestroy{
 
   userId!: number;
   page!: number;
+  searchId!: number;
 
-  user = {} as User;
+  user : User | undefined = undefined;
 
   getSubscription$!: Subscription;
 
   ngOnInit() {
+    // get the id and the last page 
+    // debugger;
     this.userId = Number(this.route.snapshot.paramMap.get('id'));
     this.page = Number(this.route.snapshot.queryParamMap.get('page'));
+    this.searchId = Number(this.route.snapshot.queryParamMap.get('searchId'));
+    console.log(this.searchId, "this.searchId");
+    
 
     this.getSubscription$ = this.service.getUserDetailsById(this.userId).subscribe(u => {
-      this.user = u.data;
+      this.user = u?.data;
     });
     
   }
@@ -41,7 +47,9 @@ export class UserDetailsComponent implements OnInit, OnDestroy{
   goBack() {
     // this.location.back();
     var page = this.page;
-    this.router.navigate(['/'], { queryParams: { page } });
+    var searchId = this.searchId
+    // send the searchId and page back
+    this.router.navigate(['/'], { queryParams: { page, searchId } });
   }
 
   // to prevent data leak
